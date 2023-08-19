@@ -13,6 +13,9 @@ Rather than a model-centric approach, our project focuses on a data-centric meth
 
 To address challenges like limited training data or imbalanced classes, data augmentation is utilized. This technique transforms available image samples into new variations without changing their labels. This project primarily employs four augmentation techniques: horizontal flipping, adding gaussian noise, normalization, and a combination of all these methods.
 
+#### Data Split:
+The balanced dataset was divided using an 8:2 ratio for training and validation
+
 ### PneumoniaMNIST
 
 - **Description:** Binary-class classification of pediatric chest X-Ray images (pneumonia vs. normal).
@@ -49,21 +52,42 @@ To address challenges like limited training data or imbalanced classes, data aug
 
 ### VesselMNIST3D
 
-- **Description:** Classification based on the IntrA dataset with 3D models of brain vessels.
-- **Class Imbalance Strategy:** Upscaling the aneurysm class using data augmentation techniques and random sampling for a balanced dataset. A model with the original imbalanced dataset is also trained for comparison.
+#### Overview:
+The VesselMNIST3D dataset is derived from the IntrA dataset, specifically tailored for intracranial aneurysm research. This dataset encompasses 103 3D models (meshes) of brain vessels, sourced from reconstructed MRA images. A distinct characteristic of this dataset is the evident class imbalance: the vessel class significantly outnumbers the aneurysm class, with a ratio nearing 8:1.
 
-**Data Augmentation Results:**
-- Horizontal Flip and Gaussian Noise: AUC - 0.8350 (Assumed value)
-- Horizontal Flip and Normalization: AUC - 0.8480 (Assumed value)
-- Gaussian Noise and Normalization: AUC - 0.8410 (Assumed value)
-- Combination of all techniques: AUC - 0.8230 (Assumed value)
+#### Data Augmentation and Balancing:
+To rectify the class imbalance, the minority class (aneurysm) was subjected to a slew of data augmentation techniques:
+- Horizontal flip
+- Gaussian noise
+- Normalization
+- Elastic transform
+- Random invert
+- Grayscale
+- Color jitter
 
-**Optimal Results after Hyperparameter Tuning:**
+Post-augmentation, random sampling was employed to achieve a balanced class distribution for training. A separate model was also trained on the original imbalanced dataset for comparison purposes.
+
+#### Hyperparameter Tuning:
+- **Learning Rates:** 0.1 & 0.001
+- **Optimizers:** Adam and Proximal Epoch Stochastic Gradient (PESG) with momentum set at 0.9.
+- **Batch Sizes:** 128 and 256
+- **Constants:** 
+  - Epoch decay: 0.003
+  - Weight decay: 0.0001
+  - Loss function: AUCMLoss()
+
+#### Results:
+
+**Imbalanced Dataset Model:** 
+- Test AUC: 0.7757
+
+**Balanced Dataset with Tuned Hyperparameters:** 
 - Optimizer: PESG
 - Learning Rate: 0.1
 - Batch Size: 128
-- Test AUC: 0.8120 
+- Test AUC: 0.8085
 
----
+**Conclusion:** The results indicate the superiority of the balanced dataset model over its imbalanced counterpart in terms of classification capability.
+
 
 
