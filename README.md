@@ -1,2 +1,2 @@
 # Medical_MNIST
-Deep learning models for various medmnist datasets 
+Deep learning models for various MedMNIST datasets 
