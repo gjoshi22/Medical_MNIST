@@ -1,4 +1,3 @@
-# Medical_MNIST
 # Medical Image Classification on Medmnist v2 Dataset
 
 ## Methodology
